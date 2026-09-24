@@ -1,9 +1,9 @@
 backend:
   name: github
-  repo: jangionet/jangionet
+  repo: jangionet/JangioNet
   branch: main
   base_url: https://www.jangio.net
-  auth_endpoint: api/auth
+  auth_endpoint: /api/auth
 
 media_folder: "static/uploads"
 public_folder: "/uploads"
