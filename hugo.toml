@@ -1,0 +1,12 @@
+baseURL = 'https://www.jangio.net/'
+locale = 'en-us'
+title = 'jangio.net'
+
+[params]
+  description = "Technology, Linux, hardware, photography, personal projects."
+  dateFormat = "2006-01-02"
+
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"

@@ -1,0 +1,21 @@
+{{ $base := resources.Get "css/base.css" }}
+{{ $header := resources.Get "css/header.css" }}
+{{ $layout := resources.Get "css/layout.css" }}
+{{ $components := resources.Get "css/components.css" }}
+{{ $articles := resources.Get "css/articles.css" }}
+
+{{ $style := slice $base $header $layout $components $articles | resources.Concat "css/bundle.css" }}
+{{ if hugo.IsProduction }}
+  {{ $style = $style | minify | fingerprint }}
+  <link
+    rel="stylesheet"
+    href="{{ $style.RelPermalink }}"
+    integrity="{{ $style.Data.Integrity }}"
+    crossorigin="anonymous"
+  />
+{{ else }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
+{{ end }}
+
+{{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
+<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous" defer></script>

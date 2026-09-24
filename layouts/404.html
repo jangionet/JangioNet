@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found | Jangio</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+
+  <body>
+    {{ partial "header.html" . }}q
+    <main class="error-page">
+    <div>
+      <h1>404 – Page not found</h1>
+      <p>The page you’re looking for doesn’t exist or has been moved.</p>
+    </div>
+      <p class="back-link">
+        <a href="/">← Back to home</a>
+      </p>
+    </main>
+    {{ partial "footer.html" . }}
+  </body>
+</html>

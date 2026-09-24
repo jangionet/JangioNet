@@ -1,0 +1,104 @@
+{{ define "main" }}
+  <main class="blog-layout">
+    <section class="post-feed" aria-labelledby="latest-posts" id="post-feed">
+      <h2 id="latest-posts">Latest posts</h2>
+
+      <section class="post-sort">
+        <label for="sort-posts">Sort posts:</label>
+        <select id="sort-posts">
+          <option value="date-desc" selected>Newest first</option>
+          <option value="date-asc">Oldest first</option>
+          <option value="title-asc">Title A–Z</option>
+          <option value="title-desc">Title Z–A</option>
+          <!-- <option value="views-desc">Most views</option> -->
+        </select>
+      </section>
+
+      {{ range .Site.RegularPages.ByDate.Reverse }}
+        {{ $p := . }}
+        <article class="post-card"
+          data-date="{{ $p.Date.Format "2006-01-02" }}"
+          data-title="{{ $p.Title | plainify }}"
+          data-views="{{ $p.Params.views | default 0 }}">
+
+          {{ $thumbnail := default "/Media/DefaultThumbnail.png" $p.Params.thumbnail }}
+
+          <a class="post-thumbnail" href="{{ $p.RelPermalink }}">
+            <img src="{{ $thumbnail }}" alt="{{ $p.Title }}">
+          </a>
+
+          <div class="post-content">
+            {{ with $p.Params.categories }}
+              <p class="post-categories">
+                {{ range $i, $cat := . }}
+                  {{ if $i }}, {{ end }}
+                  {{ $catUrl := printf "/categories/%s/" ($cat | urlize) }}
+                  <a href="{{ $catUrl }}">{{ $cat }}</a>
+                {{ end }}
+              </p>
+            {{ end }}
+
+            {{ with $p.Params.category }}
+              <p class="post-category">{{ . }}</p>
+            {{ end }}
+
+            <h3 class="post-title">
+              <a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
+            </h3>
+
+            <p class="post-meta">
+              <time datetime="{{ $p.Date.Format "2006-01-02" }}">
+                {{ $p.Date.Format site.Params.dateFormat }}
+              </time>
+            </p>
+
+            <p class="post-excerpt">
+              {{ with $p.Description }}
+                {{ . }}
+              {{ else }}
+                {{ $p.Summary }}
+              {{ end }}
+            </p>
+
+            <a class="read-post" href="{{ $p.RelPermalink }}">Read Post →</a>
+          </div>
+        </article>
+      {{ end }}
+    </section>
+
+    <aside class="blog-sidebar">
+      <section class="sidebar-box">
+        <h2>About Jangio</h2>
+        <h3>Or JangioNet</h3>
+        <p>
+          A blog about hardware, Linux,
+          photography and other projects.
+        </p>
+      </section>
+
+      <section class="sidebar-box">
+        <h2>Categories</h2>
+        <ul class="taxonomy-list">
+          {{ range .Site.Taxonomies.categories.Alphabetical }}
+            <li>
+              <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
+              <span>({{ .Count }})</span>
+            </li>
+          {{ end }}
+        </ul>
+      </section>
+
+      <section class="sidebar-box">
+        <h2>Tags</h2>
+        <ul class="taxonomy-list">
+          {{ range .Site.Taxonomies.tags.Alphabetical }}
+            <li>
+              <a href="{{ .Page.RelPermalink }}">#{{ .Page.Title }}</a>
+              <span>({{ .Count }})</span>
+            </li>
+          {{ end }}
+        </ul>
+      </section>
+    </aside>
+  </main>
+{{ end }}

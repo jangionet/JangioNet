@@ -1,0 +1,43 @@
+{{ define "main" }}
+  <main class="article-page">
+    <article>
+      {{ with .Params.categories }}
+        <p class="post-categories">
+          Categories:
+          {{ range $i, $cat := . }}
+            {{ if $i }}, {{ end }}
+            <a href="{{ "/categories/" | relLangURL }}{{ $cat | urlize }}/">{{ $cat }}</a>
+          {{ end }}
+        </p>
+      {{ end }}
+
+      {{ with .Params.category }}
+        <p class="post-category">{{ . }}</p>
+      {{ end }}
+
+      <h1>{{ .Title }}</h1>
+
+      <p class="post-meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">
+          {{ .Date.Format "2006-01-02" }}
+        </time>
+      </p>
+
+      {{ with .Params.thumbnail }}
+        <img class="article-image" src="{{ . }}" alt="{{ $.Title }}">
+      {{ end }}
+
+      <div class="article-content">
+        {{ .Content }}
+
+      </div>
+
+    </article>
+
+      <p class="back-link">
+        <a href="/">← Back to home</a>
+      </p>
+
+  </main>
+
+{{ end }}

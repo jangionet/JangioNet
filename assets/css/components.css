@@ -1,0 +1,73 @@
+/* = = = = = = components.css Starts Here = = = = = = */
+
+.post-sort {
+    width: min(850px, calc(100% - 32px));
+    margin: 0 auto 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+.post-sort label {
+    font-weight: 600;
+    color: var(--text-main);
+    white-space: nowrap;
+}
+
+.post-sort select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    font: inherit;
+    color: inherit;
+    background-color: var(--panel-background);
+    border: o;
+    border-radius: 0;
+    padding: 6px 28px 6px 10px;
+    min-width: 160px;
+    cursor: pointer;
+
+    background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position:
+    calc(100% - 16px) 55%,
+    calc(100% - 11px) 55%;
+    background-size:
+    6px 6px,
+    6px 6px;
+    background-repeat: no-repeat;
+}
+
+/* Fallback arrow color if currentColor doesn't work well */
+.post-sort select {
+    color: var(--text-main);
+}
+
+.post-sort select:focus {
+    outline-offset: 2px;
+    border-color: var(--accent);
+}
+
+/* Optional: slightly different background on hover */
+.post-sort select:hover {
+    background-color: color-mix(in srgb, var(--panel-background), #000 3%);
+}
+
+/* Mobile: stack label + select */
+@media (max-width: 480px) {
+    .post-sort {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+
+    .post-sort select {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* = = = = = = components.css Ends Here = = = = = = */

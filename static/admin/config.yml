@@ -1,0 +1,63 @@
+backend:
+  name: github
+  repo: jangionet/jangionet
+  branch: main
+  base_url: https://www.jangio.net
+  auth_endpoint: api/auth
+
+media_folder: "static/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "posts"
+    label: "Posts"
+    folder: "content/posts"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "toml-frontmatter"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+
+      - label: "Publish date"
+        name: "date"
+        widget: "datetime"
+
+      - label: "Draft"
+        name: "draft"
+        widget: "boolean"
+        default: false
+
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        required: false
+        field:
+          label: "Category"
+          name: "category"
+          widget: "string"
+
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+        field:
+          label: "Tag"
+          name: "tag"
+          widget: "string"
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        required: false
+
+      - label: "Thumbnail"
+        name: "thumbnail"
+        widget: "image"
+        required: false
+
+      - label: "Post content"
+        name: "body"
+        widget: "markdown"
