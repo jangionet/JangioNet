@@ -37,31 +37,42 @@ export async function onRequestGet({ request, env }) {
     );
   }
 
-  const message = {
+  const message = JSON.stringify({
     token: tokenData.access_token,
     provider: "github"
-  };
-
-  const safeMessage = JSON.stringify(message).replace(/</g, "\\u003c");
+  }).replace(/</g, "\\u003c");
 
   return new Response(
     `<!doctype html>
-    <html lang="en">
-    <head>
+<html lang="en">
+  <head>
     <meta charset="utf-8">
     <title>Authentication complete</title>
-    </head>
-    <body>
+  </head>
+  <body>
     <script>
-    window.opener.postMessage(
-      "authorization:github:success:${safeMessage}",
-      window.location.origin
-    );
-    window.close();
+      (function () {
+        const message = ${JSON.stringify(
+          "authorization:github:success:"
+        )} + ${JSON.stringify(message)};
+
+        window.opener.postMessage("authorizing:github", "*");
+
+        window.addEventListener("message", function handler(event) {
+          if (!event.origin) return;
+
+          window.opener.postMessage(message, event.origin);
+          window.removeEventListener("message", handler);
+
+          setTimeout(function () {
+            window.close();
+          }, 250);
+        });
+      })();
     </script>
     Authentication complete. You may close this window.
-    </body>
-    </html>`,
+  </body>
+</html>`,
     {
       headers: {
         "Content-Type": "text/html; charset=UTF-8"
