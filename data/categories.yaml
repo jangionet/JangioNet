@@ -1,0 +1,19 @@
+- name: Hardware
+  slug: hardware
+  description: Motherboards, coolers, and PC upgrades.
+
+- name: Linux
+  slug: linux
+  description: Linux distributions, desktop setups, servers, and software.
+
+- name: Photography
+  slug: photography
+  description: Cameras, lenses, photo editing, and photo projects.
+
+- name: Projects
+  slug: projects
+  description: Personal experiments, builds, and long-term projects.
+
+- name: Others
+  slug: others
+  description: Everything that does not fit another category.

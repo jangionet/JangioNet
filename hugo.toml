@@ -10,3 +10,27 @@ title = 'jangio.net'
 [taxonomies]
   category = "categories"
   tag = "tags"
+
+[[menu.main]]
+name = "Home"
+identifier = "home"
+pageRef = "/"
+weight = 1
+
+[[menu.main]]
+name = "Posts"
+identifier = "posts"
+pageRef = "/posts"
+weight = 2
+
+[[menu.main]]
+name = "Projects"
+identifier = "projects"
+pageRef = "/projects"
+weight = 3
+
+[[menu.main]]
+name = "About"
+identifier = "about"
+pageRef = "/about"
+weight = 4

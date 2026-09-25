@@ -23,7 +23,7 @@
     font: inherit;
     color: inherit;
     background-color: var(--panel-background);
-    border: o;
+    border: 0;
     border-radius: 0;
     padding: 6px 28px 6px 10px;
     min-width: 160px;

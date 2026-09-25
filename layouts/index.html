@@ -1,8 +1,6 @@
 {{ define "main" }}
   <main class="blog-layout">
     <section class="post-feed" aria-labelledby="latest-posts" id="post-feed">
-      <h2 id="latest-posts">Latest posts</h2>
-
       <section class="post-sort">
         <label for="sort-posts">Sort posts:</label>
         <select id="sort-posts">
@@ -10,16 +8,19 @@
           <option value="date-asc">Oldest first</option>
           <option value="title-asc">Title A–Z</option>
           <option value="title-desc">Title Z–A</option>
-          <!-- <option value="views-desc">Most views</option> -->
+          <option value="views-desc">Most views</option>
         </select>
       </section>
 
-      {{ range .Site.RegularPages.ByDate.Reverse }}
+      {{ range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
         {{ $p := . }}
-        <article class="post-card"
-          data-date="{{ $p.Date.Format "2006-01-02" }}"
-          data-title="{{ $p.Title | plainify }}"
-          data-views="{{ $p.Params.views | default 0 }}">
+          <article
+            class="post-card"
+            data-date="{{ $p.Date.Format "2006-01-02" }}"
+            data-title="{{ $p.Title | plainify }}"
+            data-views="{{ $p.Params.views | default 0 }}"
+            data-categories="{{ with $p.Params.categories }}{{ range $i, $cat := . }}{{ if $i }},{{ end }}{{ $cat | urlize }}{{ end }}{{ else }}{{ with $p.Params.category }}{{ . | urlize }}{{ end }}{{ end }}"
+          >
 
           {{ $thumbnail := default "/Media/DefaultThumbnail.png" $p.Params.thumbnail }}
 
@@ -32,8 +33,9 @@
               <p class="post-categories">
                 {{ range $i, $cat := . }}
                   {{ if $i }}, {{ end }}
-                  {{ $catUrl := printf "/categories/%s/" ($cat | urlize) }}
-                  <a href="{{ $catUrl }}">{{ $cat }}</a>
+                  <a href="/?category={{ $cat | urlize }}">
+                    {{ $cat }}
+                  </a>
                 {{ end }}
               </p>
             {{ end }}
@@ -42,14 +44,42 @@
               <p class="post-category">{{ . }}</p>
             {{ end }}
 
-            <h3 class="post-title">
-              <a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
-            </h3>
+                <h3 class="post-title">
+                  <a href="{{ $p.RelPermalink }}">{{ $p.Title }}</a>
+                </h3>
 
-            <p class="post-meta">
+                {{ with $p.Params.tags }}
+                  <ul class="post-tags" aria-label="Tags">
+                    {{ range . }}
+                      {{ if . }}
+                        <li>
+                          <a href="/?tag={{ . | urlize }}">
+                            #{{ . }}
+                          </a>
+                        </li>
+                      {{ end }}
+                    {{ end }}
+                  </ul>
+                {{ end }}
+
+                <p class="post-meta">
               <time datetime="{{ $p.Date.Format "2006-01-02" }}">
                 {{ $p.Date.Format site.Params.dateFormat }}
               </time>
+
+              <span class="post-meta-separator" aria-hidden="true">·</span>
+
+              <span class="post-views">
+                <span aria-hidden="true">/</span>
+                <span
+                  class="view-count"
+                  data-post="{{ $p.RelPermalink }}"
+                >
+                  {{ $p.Params.views | default 0 }}
+                </span>
+                <span class="visually-hidden">views</span>
+                <span aria-hidden="true">views</span>
+              </span>
             </p>
 
             <p class="post-excerpt">
@@ -59,8 +89,6 @@
                 {{ $p.Summary }}
               {{ end }}
             </p>
-
-            <a class="read-post" href="{{ $p.RelPermalink }}">Read Post →</a>
           </div>
         </article>
       {{ end }}
@@ -76,28 +104,37 @@
         </p>
       </section>
 
-      <section class="sidebar-box">
-        <h2>Categories</h2>
-        <ul class="taxonomy-list">
-          {{ range .Site.Taxonomies.categories.Alphabetical }}
-            <li>
-              <a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a>
-              <span>({{ .Count }})</span>
-            </li>
-          {{ end }}
-        </ul>
-      </section>
 
       <section class="sidebar-box">
-        <h2>Tags</h2>
-        <ul class="taxonomy-list">
-          {{ range .Site.Taxonomies.tags.Alphabetical }}
-            <li>
-              <a href="{{ .Page.RelPermalink }}">#{{ .Page.Title }}</a>
-              <span>({{ .Count }})</span>
-            </li>
-          {{ end }}
-        </ul>
+        <h2>Categories</h2>
+
+<ul class="taxonomy-list">
+  <li>
+    <a href="/?category=all" data-category="all">
+      All posts
+    </a>
+  </li>
+
+  {{ range hugo.Data.categories }}
+    {{ $category := . }}
+    {{ $term := index site.Taxonomies.categories $category.slug }}
+    {{ $count := 0 }}
+
+    {{ with $term }}
+      {{ $count = .Count }}
+    {{ end }}
+
+    <li>
+      <a
+        href="/?category={{ $category.slug }}"
+        data-category="{{ $category.slug }}"
+      >
+        {{ $category.name }}
+      </a>
+      <span class="count">({{ $count }})</span>
+    </li>
+  {{ end }}
+</ul>
       </section>
     </aside>
   </main>

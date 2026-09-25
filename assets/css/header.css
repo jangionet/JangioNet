@@ -4,47 +4,108 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
+
     display: flex;
     align-items: center;
-    min-height: 20px;
+
+    min-height: 64px;
     padding: 0;
-    background-color: var(--panel-background);
+
+    background: color-mix(
+        in srgb,
+        var(--panel-background) 75%,
+                          transparent
+    );
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border-bottom: 1px solid
+    color-mix(in srgb, var(--text-glow) 45%, var(--panel-border));
+
+    transition:
+    background 300ms ease,
+    border-color 300ms ease;
 }
+
+header::after {
+    content: "";
+
+    position: absolute;
+    right: 0;
+    bottom: -3px;
+    left: 0;
+
+    height: 3px;
+    pointer-events: none;
+
+    background: var(--text-glow);
+
+    box-shadow:
+    0 0 6px var(--text-glow),
+    0 0 16px var(--text-glow),
+    0 0 30px color-mix(in srgb, var(--text-glow) 75%, transparent);
+}
+
+/* = = = = = = Logo = = = = = = */
 
 header h1 {
     display: flex;
     align-items: center;
-    text-decoration: none;
 
     width: 32px;
     height: 64px;
     margin: 0;
-    padding: 32px 32px;
-    color: white;
+    padding: 0 32px;
+
+    text-decoration: none;
+}
+
+header h1 a {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 header h1 img {
     display: block;
     width: auto;
     height: 48px;
-    object-fit: center;
+    object-fit: contain;
+
+    filter:
+    drop-shadow(0 0 3px var(--text-glow))
+    drop-shadow(0 0 8px var(--text-glow))
+    drop-shadow(0 0 16px color-mix(
+        in srgb,
+        var(--text-glow) 70%,
+                                   transparent
+    ));
+
+    transition: filter 300ms ease;
 }
+
+/* = = = = = = Navigation = = = = = = */
 
 header nav {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 50%;
+
     transform: translateX(-50%);
 }
 
 header nav ul {
     display: flex;
     height: 100%;
-
     margin: 0;
     padding: 0;
     list-style: none;
+}
+
+header nav li {
+    display: flex;
 }
 
 header nav a {
@@ -52,46 +113,37 @@ header nav a {
     align-items: center;
 
     padding: 0 32px;
-    color: white;
+
+    color: var(--text-main);
     text-decoration: none;
+
+    transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    text-shadow 180ms ease;
 }
 
-header nav li {
-    display: flex;
+header nav a:hover,
+header nav a:focus-visible {
+    color: var(--text-glow);
+    background-color: color-mix(
+        in srgb,
+        var(--text-glow) 12%,
+                                transparent
+    );
+    outline: none;
 }
 
-header nav a:hover {
-    background-color: #767676;
+header nav a.active {
+    color: var(--text-glow);
+    background: var(--text-glow)
+    text-shadow:
+    0 0 8px var(--text-glow),
+    0 0 16px color-mix(
+        in srgb,
+        var(--text-glow) 25%,
+                       transparent
+    );
 }
-
-/* = = = = = = Header Buttons Starts Here = = = = = = */
-
-.HeaderButtons {
-    height: 64px;
-    padding: 0 32px;
-    border: 0;
-    color: white;
-    font: inherit;
-    cursor: pointer;
-
-    background-repeat: repeat;
-    background-position: left center;
-    background-size: 26px 22px;
-
-    image-rendering: pixelated;
-}
-
-.HeaderButtons:hover {
-    filter: brightness(1.5);
-}
-
-.HeaderButtons:active {
-    transform: translateY(-2px) scale(1.03);
-    box-shadow:
-    0 5px 10px rgb(0 0 0 / 40%),
-    inset 0 0 0 2px rgb(255 255 255 / 45%);
-}
-
-/* = = = = = = Header Buttons Ends Here = = = = = = */
 
 /* = = = = = = header.css Ends Here = = = = = = */

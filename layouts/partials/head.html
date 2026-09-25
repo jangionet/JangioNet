@@ -4,7 +4,9 @@
 {{ $components := resources.Get "css/components.css" }}
 {{ $articles := resources.Get "css/articles.css" }}
 
-{{ $style := slice $base $header $layout $components $articles | resources.Concat "css/bundle.css" }}
+{{ $styleFiles := slice $base $header $layout $components $articles }}
+{{ $style := $styleFiles | resources.Concat "css/bundle.css" }}
+
 {{ if hugo.IsProduction }}
   {{ $style = $style | minify | fingerprint }}
   <link
@@ -12,10 +14,67 @@
     href="{{ $style.RelPermalink }}"
     integrity="{{ $style.Data.Integrity }}"
     crossorigin="anonymous"
-  />
+  >
 {{ else }}
-  <link rel="stylesheet" href="{{ $style.RelPermalink }}" />
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 {{ end }}
 
-{{ $js := resources.Get "js/main.js" | resources.Minify | resources.Fingerprint }}
-<script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" crossorigin="anonymous" defer></script>
+{{ with resources.Get "js/main.js" }}
+  {{ $script := . }}
+  {{ if hugo.IsProduction }}
+    {{ $script = $script | minify | fingerprint }}
+    <script
+      src="{{ $script.RelPermalink }}"
+      integrity="{{ $script.Data.Integrity }}"
+      crossorigin="anonymous"
+      defer
+    ></script>
+  {{ else }}
+    <script src="{{ $script.RelPermalink }}" defer></script>
+  {{ end }}
+{{ end }}
+
+{{ with resources.Get "js/category-filter.js" }}
+  {{ $script := . }}
+  {{ if hugo.IsProduction }}
+    {{ $script = $script | minify | fingerprint }}
+    <script
+      src="{{ $script.RelPermalink }}"
+      integrity="{{ $script.Data.Integrity }}"
+      crossorigin="anonymous"
+      defer
+    ></script>
+  {{ else }}
+    <script src="{{ $script.RelPermalink }}" defer></script>
+  {{ end }}
+{{ end }}
+
+{{ with resources.Get "js/post-filter.js" }}
+  {{ $script := . }}
+  {{ if hugo.IsProduction }}
+    {{ $script = $script | minify | fingerprint }}
+    <script
+      src="{{ $script.RelPermalink }}"
+      integrity="{{ $script.Data.Integrity }}"
+      crossorigin="anonymous"
+      defer
+    ></script>
+  {{ else }}
+    <script src="{{ $script.RelPermalink }}" defer></script>
+  {{ end }}
+{{ end }}
+
+{{ with resources.Get "js/views.js" }}
+  {{ $script := . }}
+  {{ if hugo.IsProduction }}
+    {{ $script = $script | minify | fingerprint }}
+    <script
+      src="{{ $script.RelPermalink }}"
+      integrity="{{ $script.Data.Integrity }}"
+      crossorigin="anonymous"
+      defer
+    ></script>
+  {{ else }}
+    <script src="{{ $script.RelPermalink }}" defer></script>
+  {{ end }}
+{{ end }}

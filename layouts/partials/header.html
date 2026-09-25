@@ -1,16 +1,40 @@
-<header>
+{{ $currentPage := . }}
+{{ $activeSection := "home" }}
+
+{{ range site.Menus.main }}
+  {{ if or
+    ($currentPage.IsMenuCurrent "main" .)
+    ($currentPage.HasMenuCurrent "main" .)
+  }}
+    {{ $activeSection = .Identifier }}
+  {{ end }}
+{{ end }}
+
+<header class="section-{{ $activeSection }}">
   <h1>
     <a href="/" aria-label="Jangio">
       <img src="/Media/jangioLogo.svg" alt="JANGIO" />
     </a>
   </h1>
 
-  <nav aria-label="Main navigation">
+  <nav class="HeaderButtons" aria-label="Main navigation">
     <ul>
-      <li><a class="HeaderButtons" href="/">Home</a></li>
-      <li><a class="HeaderButtons" href="/posts/">Posts</a></li>
-      <li><a class="HeaderButtons" href="/projects/">Projects</a></li>
-      <li><a class="HeaderButtons" href="/about/">About</a></li>
+      {{ range site.Menus.main }}
+        {{ $active := or
+          ($currentPage.IsMenuCurrent "main" .)
+          ($currentPage.HasMenuCurrent "main" .)
+        }}
+
+        <li>
+          <a
+            href="{{ .URL }}"
+            class="{{ if $active }}active{{ end }}"
+            {{ if $active }}aria-current="page"{{ end }}
+          >
+            {{ .Name }}
+          </a>
+        </li>
+      {{ end }}
     </ul>
   </nav>
 </header>

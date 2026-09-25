@@ -1,12 +1,11 @@
 +++
-title = "About"
+title = "About Jangio.Net"
 date = 2026-09-24T01:50:00-03:00
 draft = false
-description = "About JangioNet."
+layout = "about"
 +++
 
-## About
+This is my personal blog for computer stuff, photography (maybe plane spotting once I get a telephoto lens), and other cool stuff.
 
-This site is a personal blog about hardware, Linux, photography, and projects.
 
-Contact E-mail: [Contact@jangio.net](mailto:Contact@jangio.net)
+*If you wish to contact me, write an e-mail to:* [Contact@jangio.net](mailto:Contact@jangio.net)
