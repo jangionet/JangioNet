@@ -6,7 +6,7 @@
           Categories:
           {{ range $i, $cat := . }}
             {{ if $i }}, {{ end }}
-            <a href="/?category={{ $cat | urlize }}">{ $cat }}</a>
+            <a href="/?category={{ $cat | urlize }}">{{ $cat }}</a>
           {{ end }}
         </p>
       {{ end }}
@@ -19,8 +19,16 @@
 
       <p class="post-meta">
         <time datetime="{{ .Date.Format "2006-01-02" }}">
-          {{ .Date.Format site.Params.dateFormat  }}
+          {{ .Date.Format site.Params.dateFormat }}
         </time>
+
+        <span class="post-meta-separator" aria-hidden="true">·</span>
+
+          <span class="post-views">
+            <span aria-hidden="true">/</span>
+            <span class="view-count" data-post="{{ .RelPermalink }}">0</span>
+            <span aria-hidden="true">views</span>
+          </span>
       </p>
 
       {{ with .Params.thumbnail }}
